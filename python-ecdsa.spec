@@ -2,29 +2,28 @@
 # Conditional build:
 %bcond_without	python2		# Python 2.x module
 %bcond_without	python3		# Python 3.x module
-#
-%define	module	ecdsa
-#
+
+%define 	module	ecdsa
 Summary:	ECDSA cryptographic signature library
-Name:		python-ecdsa
+Name:		python-%{module}
 Version:	0.10
 Release:	1
 License:	GPL
 Group:		Development/Languages/Python
-Source0:	http://pypi.python.org/packages/source/e/ecdsa/ecdsa-%{version}.tar.gz
+Source0:	http://pypi.python.org/packages/source/e/ecdsa/%{module}-%{version}.tar.gz
 # Source0-md5:	e95941b3bcbf1726472bb724d7478551
 URL:		https://pypi.python.org/pypi/ecdsa
+BuildRequires:	rpm-pythonprov
 %if %{with python2}
 BuildRequires:	python-devel
 BuildRequires:	python-modules
-Requires:	python
 %endif
 %if %{with python3}
 BuildRequires:	python3-2to3
 BuildRequires:	python3-devel
 BuildRequires:	python3-modules
 %endif
-BuildRequires:	rpm-pythonprov
+Requires:	python
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -38,8 +37,6 @@ them easy to handle and incorporate into other protocols.
 
 %package -n	python3-%{module}
 Summary:	ECDSA cryptographic signature library
-Version:	0.10
-Release:	1
 Group:		Libraries/Python
 Requires:	python3
 
@@ -56,17 +53,17 @@ them easy to handle and incorporate into other protocols.
 
 %build
 %if %{with python2}
-%{__python} ./setup.py build --build-base py2
+%{__python} setup.py build --build-base py2
 %endif
 %if %{with python3}
-%{__python3} ./setup.py build --build-base py3
+%{__python3} setup.py build --build-base py3
 %endif
 
 %install
 rm -rf $RPM_BUILD_ROOT
 %if %{with python2}
 install -d $RPM_BUILD_ROOT%{_examplesdir}/python-%{module}-%{version}
-%{__python} ./setup.py build \
+%{__python} setup.py build \
 	--build-base py2 \
 	install \
 	--optimize 2 \
@@ -75,7 +72,7 @@ install -d $RPM_BUILD_ROOT%{_examplesdir}/python-%{module}-%{version}
 
 %if %{with python3}
 install -d $RPM_BUILD_ROOT%{_examplesdir}/python3-%{module}-%{version}
-%{__python3} ./setup.py build \
+%{__python3} setup.py build \
 	--build-base py3 \
 	install \
 	--optimize 2 \
@@ -89,16 +86,16 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 %doc LICENSE NEWS README.md
-%{_examplesdir}/python-%{module}-%{version}
 %{py_sitescriptdir}/%{module}
-%{py_sitescriptdir}/*egg-info
+%{py_sitescriptdir}/%{module}-%{version}-py*.egg-info
+%{_examplesdir}/python-%{module}-%{version}
 %endif
 
 %if %{with python3}
 %files -n python3-%{module}
 %defattr(644,root,root,755)
 %doc LICENSE NEWS README.md
-%{_examplesdir}/python3-%{module}-%{version}
 %{py3_sitescriptdir}/%{module}
-%{py3_sitescriptdir}/*egg-info
+%{py3_sitescriptdir}/%{module}-%{version}-py*.egg-info
+%{_examplesdir}/python3-%{module}-%{version}
 %endif
