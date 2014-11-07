@@ -6,12 +6,12 @@
 %define 	module	ecdsa
 Summary:	ECDSA cryptographic signature library
 Name:		python-%{module}
-Version:	0.10
-Release:	2
+Version:	0.11
+Release:	1
 License:	GPL
 Group:		Development/Languages/Python
 Source0:	http://pypi.python.org/packages/source/e/ecdsa/%{module}-%{version}.tar.gz
-# Source0-md5:	e95941b3bcbf1726472bb724d7478551
+# Source0-md5:	8ef586fe4dbb156697d756900cb41d7c
 URL:		https://pypi.python.org/pypi/ecdsa
 BuildRequires:	rpm-pythonprov
 %if %{with python2}
@@ -35,7 +35,7 @@ create keypairs (signing key and verifying key), sign messages, and
 verify the signatures. The keys and signatures are very short, making
 them easy to handle and incorporate into other protocols.
 
-%package -n	python3-%{module}
+%package -n python3-%{module}
 Summary:	ECDSA cryptographic signature library
 Group:		Libraries/Python
 Requires:	python3
