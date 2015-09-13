@@ -7,7 +7,7 @@
 Summary:	ECDSA cryptographic signature library
 Name:		python-%{module}
 Version:	0.11
-Release:	1
+Release:	2
 License:	GPL
 Group:		Development/Languages/Python
 Source0:	http://pypi.python.org/packages/source/e/ecdsa/%{module}-%{version}.tar.gz
