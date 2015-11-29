@@ -13,6 +13,7 @@ Group:		Development/Languages/Python
 Source0:	http://pypi.python.org/packages/source/e/ecdsa/%{module}-%{version}.tar.gz
 # Source0-md5:	8ef586fe4dbb156697d756900cb41d7c
 URL:		https://pypi.python.org/pypi/ecdsa
+BuildRequires:	rpmbuild(macros) >= 1.710
 BuildRequires:	rpm-pythonprov
 %if %{with python2}
 BuildRequires:	python-devel
