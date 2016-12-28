@@ -8,7 +8,7 @@ Summary:	ECDSA cryptographic signature library
 Summary(pl.UTF-8):	Biblioteka podpisów kryptograficznych ECDSA
 Name:		python-%{module}
 Version:	0.13
-Release:	1
+Release:	2
 License:	MIT
 Group:		Development/Languages/Python
 #Source0Download: https://pypi.python.org/simple/ecdsa/
