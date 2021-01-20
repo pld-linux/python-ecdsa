@@ -1,19 +1,20 @@
 #
 # Conditional build:
-%bcond_without	python2		# Python 2.x module
-%bcond_without	python3		# Python 3.x module
+%bcond_without	tests	# unit tests
+%bcond_without	python2	# Python 2.x module
+%bcond_without	python3	# Python 3.x module
 
 %define 	module	ecdsa
 Summary:	ECDSA cryptographic signature library
 Summary(pl.UTF-8):	Biblioteka podpisów kryptograficznych ECDSA
 Name:		python-%{module}
-Version:	0.13.3
-Release:	2
+Version:	0.16.1
+Release:	1
 License:	MIT
 Group:		Development/Languages/Python
 #Source0Download: https://pypi.org/simple/ecdsa/
 Source0:	https://files.pythonhosted.org/packages/source/e/ecdsa/%{module}-%{version}.tar.gz
-# Source0-md5:	b1b33f7fe171eb1278de6f93eefc34f8
+# Source0-md5:	98c0da4c046286e892fdba727f93edea
 URL:		https://pypi.org/project/ecdsa
 BuildRequires:	rpmbuild(macros) >= 1.714
 BuildRequires:	rpm-pythonprov
@@ -21,12 +22,21 @@ BuildRequires:	rpm-pythonprov
 BuildRequires:	python-devel >= 1:2.6
 BuildRequires:	python-modules >= 1:2.6
 BuildRequires:	python-setuptools
+%if %{with tests}
+BuildRequires:	python-hypothesis
+BuildRequires:	python-pytest
+BuildRequires:	python-six >= 1.9.0
+%endif
 %endif
 %if %{with python3}
-BuildRequires:	python3-2to3 >= 1:3.2
-BuildRequires:	python3-devel >= 1:3.2
-BuildRequires:	python3-modules >= 1:3.2
+BuildRequires:	python3-devel >= 1:3.3
+BuildRequires:	python3-modules >= 1:3.3
 BuildRequires:	python3-setuptools
+%if %{with tests}
+BuildRequires:	python3-hypothesis
+BuildRequires:	python3-pytest
+BuildRequires:	python3-six >= 1.9.0
+%endif
 %endif
 Requires:	python-modules >= 1:2.6
 BuildArch:	noarch
@@ -53,7 +63,7 @@ włączenia do innych protokołów.
 Summary:	ECDSA cryptographic signature library
 Summary(pl.UTF-8):	Biblioteka podpisów kryptograficznych ECDSA
 Group:		Libraries/Python
-Requires:	python3-modules >= 1:3.2
+Requires:	python3-modules >= 1:3.3
 
 %description -n python3-%{module}
 This is an easy-to-use implementation of ECDSA cryptography (Elliptic
@@ -73,27 +83,33 @@ podpisy są bardzo krótkie, co czyni je łatwymi do obsłużenia i
 włączenia do innych protokołów.
 
 %prep
-%setup  -q -n ecdsa-%{version}
+%setup -q -n ecdsa-%{version}
 
 %build
 %if %{with python2}
 %py_build
+
+%if %{with tests}
+%{__python} -m pytest src
+%endif
 %endif
 
 %if %{with python3}
 %py3_build
+
+%if %{with tests}
+%{__python3} -m pytest src
+%endif
 %endif
 
 %install
 rm -rf $RPM_BUILD_ROOT
 
 %if %{with python2}
-install -d $RPM_BUILD_ROOT%{_examplesdir}/python-%{module}-%{version}
 %py_install
 %endif
 
 %if %{with python3}
-install -d $RPM_BUILD_ROOT%{_examplesdir}/python3-%{module}-%{version}
 %py3_install
 %endif
 
@@ -106,7 +122,6 @@ rm -rf $RPM_BUILD_ROOT
 %doc LICENSE NEWS README.md
 %{py_sitescriptdir}/%{module}
 %{py_sitescriptdir}/%{module}-%{version}-py*.egg-info
-%{_examplesdir}/python-%{module}-%{version}
 %endif
 
 %if %{with python3}
@@ -115,5 +130,4 @@ rm -rf $RPM_BUILD_ROOT
 %doc LICENSE NEWS README.md
 %{py3_sitescriptdir}/%{module}
 %{py3_sitescriptdir}/%{module}-%{version}-py*.egg-info
-%{_examplesdir}/python3-%{module}-%{version}
 %endif
