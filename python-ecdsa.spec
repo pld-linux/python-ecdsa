@@ -8,13 +8,13 @@
 Summary:	ECDSA cryptographic signature library
 Summary(pl.UTF-8):	Biblioteka podpisów kryptograficznych ECDSA
 Name:		python-%{module}
-Version:	0.16.1
-Release:	5
+Version:	0.18.0
+Release:	1
 License:	MIT
 Group:		Development/Languages/Python
 #Source0Download: https://pypi.org/simple/ecdsa/
 Source0:	https://files.pythonhosted.org/packages/source/e/ecdsa/%{module}-%{version}.tar.gz
-# Source0-md5:	98c0da4c046286e892fdba727f93edea
+# Source0-md5:	cbca26ec29cc50e32e8b070aa2ec0786
 URL:		https://pypi.org/project/ecdsa
 BuildRequires:	rpmbuild(macros) >= 1.714
 BuildRequires:	rpm-pythonprov
@@ -24,7 +24,7 @@ BuildRequires:	python-modules >= 1:2.6
 BuildRequires:	python-setuptools
 %if %{with tests}
 BuildRequires:	python-hypothesis
-BuildRequires:	python-pytest
+BuildRequires:	python-pytest >= 4.6.0
 BuildRequires:	python-six >= 1.9.0
 %endif
 %endif
@@ -34,7 +34,7 @@ BuildRequires:	python3-modules >= 1:3.3
 BuildRequires:	python3-setuptools
 %if %{with tests}
 BuildRequires:	python3-hypothesis
-BuildRequires:	python3-pytest
+BuildRequires:	python3-pytest >= 4.6.0
 BuildRequires:	python3-six >= 1.9.0
 %endif
 %endif
@@ -90,6 +90,7 @@ włączenia do innych protokołów.
 %py_build
 
 %if %{with tests}
+PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 \
 %{__python} -m pytest src
 %endif
 %endif
@@ -98,6 +99,7 @@ włączenia do innych protokołów.
 %py3_build
 
 %if %{with tests}
+PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 \
 %{__python3} -m pytest src
 %endif
 %endif
